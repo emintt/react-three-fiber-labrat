@@ -1,27 +1,37 @@
 import { Canvas } from "@react-three/fiber";
-// import { useRef } from "react";
 import "./App.css";
-import Box from "./components/Box";
-import { PointerLockControls } from "@react-three/drei";
-import Ground from "./components/Ground";
+import { FlyControls, PointerLockControls } from "@react-three/drei";
+import ControlPanel from "./components/ControlPanel";
+import Crosshair from "./components/Crosshair";
+import Balls from "./components/Balls";
+
+
+// useEffect(() => {  
+//   if (meshRef.current) {
+//     meshRef.current.setMatrixAt(0, new Matrix4());
+//     meshRef.current.instanceMatrix.needsUpdate = true;
+//   }
+// }, [])
 
 const App = () => {
   return (
     <section className="three-canvas">
       <Canvas>
         <PointerLockControls />
+        <FlyControls rollSpeed={0} movementSpeed={3} dragToLook />
         <ambientLight />
+        <directionalLight position={[-50, 40, 50]} castShadow />
         <pointLight position={[10, 10, 10]} />
-        {/* <RotatingCube /> */}
-        <Box position={[-1, 0, 0]} />
-        <Box position={[2, 0, 0]} />
-        <Box position={[-2, 0, 0]} />
-        {Array.from({ length: 100 }).map((_, index) =>
-          Array.from({ length: 100 }).map((_, jindex) => (
-            <Ground position={[index + 1, -2, jindex + 1]} />
-          )),
-        )}
+        <ControlPanel 
+          position={[0, 0, 3]} 
+          rotation={[-0.1, 0, 0]}
+          scale={0.2}
+          receiveShadow
+          castShadow
+        />
+        <Balls />
       </Canvas>
+      <Crosshair />
     </section>
   );
 };
